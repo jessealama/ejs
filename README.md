@@ -15,17 +15,19 @@ rather than bowing in the face of practicality and using
 
     1.0
 
-It's all about numbers. (EJS has nothing special to say about that non-numeric parts of JSON.)
+It's all about numbers. (EJS has nothing special to say about the non-numeric parts of JSON. They are handled just like the `json` package.)
 
 # What's the difference between EJS and Racket's built-in JSON support? #
 
-EJS is intended to be *just like Racket's built-in JSON library* with one exception: all numbers are exact. In other words, in the EJS world, all numbers are rational (hence exact). In Racket's JSON world, inexact numbers are allowed.
+EJS is intended to be *just like Racket's built-in JSON library* with one exception: all numbers are exact.
 
-This one exception shows up in three places:
+In the EJS world, all numbers are rational (hence exact). In Racket's JSON world, inexact numbers are allowed.
+
+This one difference—the insistence that all numbers are rational—shows up in three places:
 
 ## jsexpr? vs. ejsexpr? ##
 
-Short and sweet:
+Let's keep it short and sweet:
 
     > (jsexpr? #e3/5)
 	#f
