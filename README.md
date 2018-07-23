@@ -1,9 +1,9 @@
-ejs: Exact JSON (expressions)
+EJS: Exact JSON for Racket
 ==========
 
-EJS provides *exact JSON* for Racket. It is a no-compromises implementation of JSON for Racket, where numbers are implemented exactly.
+EJS is an *exact JSON* library for Racket. It is a no-compromises—no numeric rounding—implementation of JSON for Racket.
 
-EJS does essentially the same thing that Racket's standard JSON library, `json`, does. The main difference is that EJS's concept of numbers is exact: every number that EJS handles is an exact (read, rational) number. Given a a number like
+EJS does essentially the same thing that Racket's standard JSON library, `json`, does. The main difference is that EJS's concept of numbers is *exact*: every number that EJS handles is an exact (read, rational) number. Given a a number like
 
     1.00000000000000000000000000001
 
@@ -70,3 +70,7 @@ holds, and, for all EJS expressions `E`,
     (string->ejsexpr (ejsexpr->string E)) = E
 
 Such roundtripping is not guaranteed by Racket's built-in JSON package because it lowers the precision of some "high-precision" numbers.
+
+## License ##
+
+EJS is offered under the terms of the ISC License. See `LICENSE.txt`.
