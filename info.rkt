@@ -1,4 +1,4 @@
-g#lang info
+#lang info
 
 (define collection "ejs")
 
