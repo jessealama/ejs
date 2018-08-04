@@ -6,6 +6,8 @@
          ejs-object?
          ejs-array?
          ejs-boolean?
+         ejs-true?
+         ejs-false?
          ejs-string?
          ejs-null?)
 
@@ -52,7 +54,8 @@
 
 (define/contract (ejs-object? x)
   (any/c . -> . boolean?)
-  (and (hash-eq? x)
+  (and (hash? x)
+       (hash-eq? x)
        (andmap symbol? (hash-keys x))
        (andmap ejsexpr? (hash-values x))))
 
@@ -64,6 +67,14 @@
 (define/contract (ejs-boolean? x)
   (any/c . -> . boolean?)
   (boolean? x))
+
+(define/contract (ejs-true? x)
+  (any/c . -> . boolean?)
+  (eq? x #t))
+
+(define/contract (ejs-false? x)
+  (any/c . -> . boolean?)
+  (eq? x #f))
 
 (define/contract (ejs-string? x)
   (any/c . -> . boolean?)

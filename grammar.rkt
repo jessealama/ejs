@@ -1,19 +1,24 @@
 #lang brag
 
-documents: document*
+ejsexprs: ejsexpr*
 
-document: boolean | null | string | number | object | array
+ejsexpr: null
+  | boolean
+  | string
+  | number
+  | array
+  | object
 
-boolean: TRUE | FALSE
+null: "null"
+
+boolean: "true" | "false"
 
 string: DOUBLE-QUOTED-STRING
 
-null: NULL
+number: DIGITS | NEGATIVE-DIGITS | DECIMAL-DIGITS | NEGATIVE-DECIMAL-DIGITS
 
-number: DIGITS | DECIMAL-DIGITS | NEGATIVE-DIGITS | NEGATIVE-DECIMAL-DIGITS
+array: "[" ( ejsexpr ( "," ejsexpr )* )* "]"
 
-object : "{" [ object-item ("," object-item)* ] "}"
+object: "{" (object-item ("," object-item ) * ) * "}"
 
-object-item : DOUBLE-QUOTED-STRING ":" document
-
-array : "[" [ document ("," document )* ] "]"
+object-item: DOUBLE-QUOTED-STRING ":" ejsexpr
