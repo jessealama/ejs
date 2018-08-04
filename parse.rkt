@@ -1,6 +1,9 @@
 #lang racket/base
 
-(provide port->ejsexprs)
+(provide port->ejsexprs
+         port->ejsexpr
+         string->ejsexprs
+         string->ejsexpr)
 
 (require (only-in racket/port
                   call-with-input-string)
