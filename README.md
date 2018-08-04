@@ -15,7 +15,7 @@ rather than bowing in the face of practicality and using
 
     1.0
 
-It's all about numbers. (EJS has nothing special to say about the non-numeric parts of JSON. They are handled just like the `json` package.)
+It's all about numbers. EJS has nothing special to say about the non-numeric parts of JSON. They are handled just like the `json` package. (At least, they *ought* to be handled that way. If that's not the case, please let me know.)
 
 # What's the difference between EJS and Racket's built-in JSON support? #
 
@@ -75,4 +75,6 @@ Such roundtripping is not guaranteed by Racket's built-in JSON package because i
 
 ## License ##
 
-EJS is offered under the terms of the ISC License. See `LICENSE.txt`.
+EJS is offered under the terms of the ISC License (as tweaked by OpenBSD; see the [template](https://cvsweb.openbsd.org/cgi-bin/cvsweb/src/share/misc/license.template?rev=HEAD)). See the file `LICENSE`.
+
+— [Jesse Alama](mailto:jesse@lisp.sh "get in touch")
