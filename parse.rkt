@@ -66,6 +66,8 @@
                 (string->ejsexpr "-1.000000000000000000000000000003"))
   (check-equal? (list)
                 (string->ejsexpr "[]"))
+  (check-equal? (hasheq)
+                (string->ejsexpr "{}"))
   (check-equal? (list)
                 (string->ejsexpr " [ ] "))
   (check-equal? (hasheq 'hi 'null)
