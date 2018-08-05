@@ -3,6 +3,7 @@
 (provide ejsexpr?
          ejsexpr/c
          ejs-number?
+         ejs-integer?
          ejs-object?
          ejs-array?
          ejs-boolean?
@@ -50,7 +51,33 @@
 (define/contract (ejs-number? x)
   (any/c . -> . boolean?)
   (and (number? x)
-       (rational? x)))
+       (real? x)
+       (exact? x)))
+
+(module+ test
+  (check-true (ejs-number? 0))
+  (check-false (ejs-number? #t))
+  (check-false (ejs-number? 0.24))
+  (check-true (ejs-number? #e0.24))
+  (check-true (ejs-number? -1))
+  (check-true (ejs-number? #e-4.56))
+  (check-false (ejs-number? -4.56)))
+
+(define/contract (ejs-integer? x)
+  (any/c . -> . boolean?)
+  (and (ejs-number? x)
+       (integer? x)))
+
+(module+ test
+  (check-true (ejs-integer? 0))
+  (check-false (ejs-integer? #t))
+  (check-false (ejs-integer? 0.24))
+  (check-false (ejs-integer? #e0.24))
+  (check-true (ejs-integer? -1))
+  (check-true (ejs-integer? #e1234567890123456789))
+  (check-true (ejs-integer? #e-1234567890123456789))
+  (check-false (ejs-integer? #e-4.56))
+  (check-false (ejs-number? -4.56)))
 
 (define/contract (ejs-object? x)
   (any/c . -> . boolean?)
