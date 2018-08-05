@@ -51,13 +51,15 @@
                         'number-or-false
                         'decimal-as-exact)]
        [(list-rest 'array "[" items)
-        (map evaluate/1 (drop-right items 1))]
+        (map evaluate/1 (remove* (list ",")
+                                 (drop-right items 1)))]
        [(list 'object "{" "}")
         (hasheq)]
        [(list-rest 'object "{" items)
         (apply hash-union
                (map eval-object-item
-                    (drop-right items 1)))]
+                    (remove* (list ",")
+                             (drop-right items 1))))]
        [else
         (error (format "evaluate/1: Don't know how to evaluate ~a" more))])]
     [else
