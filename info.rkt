@@ -13,6 +13,7 @@
 (define build-deps
   '("scribble-lib"
     "racket-doc"
+    "brag"
     "rackunit-lib"
     "beautiful-racket-lib"))
 
