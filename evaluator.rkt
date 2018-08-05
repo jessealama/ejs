@@ -52,6 +52,8 @@
                         'decimal-as-exact)]
        [(list-rest 'array "[" items)
         (map evaluate/1 (drop-right items 1))]
+       [(list 'object "{" "}")
+        (hasheq)]
        [(list-rest 'object "{" items)
         (apply hash-union
                (map eval-object-item
