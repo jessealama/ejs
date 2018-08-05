@@ -3,10 +3,13 @@
 (provide port->ejsexprs
          port->ejsexpr
          string->ejsexprs
-         string->ejsexpr)
+         string->ejsexpr
+         bytes->ejsexpr
+         bytes->ejsexprs)
 
 (require (only-in racket/port
-                  call-with-input-string)
+                  call-with-input-string
+                  call-with-input-bytes)
          racket/contract
          (file "grammar.rkt")
          (file "tokenizer.rkt")
@@ -33,6 +36,14 @@
 (define/contract (string->ejsexpr str)
   (string? . -> . ejsexpr?)
   (call-with-input-string str port->ejsexpr))
+
+(define/contract (bytes->ejsexpr bstr)
+  (bytes? . -> . ejsexpr?)
+  (call-with-input-bytes bstr port->ejsexpr))
+
+(define/contract (bytes->ejsexprs bstr)
+  (bytes? . -> . (listof ejsexpr?))
+  (call-with-input-bytes bstr port->ejsexprs))
 
 (module+ test
   (check-equal? "\"hi!\""
