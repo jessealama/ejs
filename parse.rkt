@@ -70,5 +70,27 @@
                 (string->ejsexpr "{}"))
   (check-equal? (list)
                 (string->ejsexpr " [ ] "))
+  (check-equal? (list 4 1987654321/1000000000)
+                (string->ejsexpr "[4 , 1.987654321]"))
   (check-equal? (hasheq 'hi 'null)
                 (string->ejsexpr "{ \"hi\": null}")))
+
+;; tests copied from argo:
+(module+ test
+  (define geo/str #<<SCHEMA
+{
+    "id": "http://json-schema.org/geo",
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "description": "A geographical coordinate",
+    "type": "object",
+    "properties": {
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" }
+    }
+}
+SCHEMA
+  )
+)
+
+(module+ test
+  (check-true (ejs-object? (string->ejsexpr geo/str))))
