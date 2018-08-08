@@ -77,6 +77,6 @@
 (provide object-item)
 
 (define-macro (string S)
-  #'S)
+  #'(string-trim S "\""))
 
 (provide string)

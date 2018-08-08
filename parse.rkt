@@ -46,7 +46,7 @@
   (call-with-input-bytes bstr port->ejsexprs))
 
 (module+ test
-  (check-equal? "\"hi!\""
+  (check-equal? "hi!"
                 (string->ejsexpr "\"hi!\""))
   (check-equal? 'null
                 (string->ejsexpr "null"))

@@ -34,7 +34,7 @@
     [(list 'ejsexpr more)
      (match more
        [(list 'string (? string? s))
-        (format "\"~a\"" s)]
+        s]
        [(list 'null "null")
         'null]
        [(list 'boolean b)
