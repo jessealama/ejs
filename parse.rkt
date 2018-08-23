@@ -73,7 +73,9 @@
   (check-equal? (list 4 1987654321/1000000000)
                 (string->ejsexpr "[4 , 1.987654321]"))
   (check-equal? (hasheq 'hi 'null)
-                (string->ejsexpr "{ \"hi\": null}")))
+                (string->ejsexpr "{ \"hi\": null}"))
+  (check-equal? (hasheq 'hi "there!")
+                (string->ejsexpr "{\"hi\": \"there!\"}")))
 
 ;; tests copied from argo:
 (module+ test
