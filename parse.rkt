@@ -75,7 +75,9 @@
   (check-equal? (hasheq 'hi 'null)
                 (string->ejsexpr "{ \"hi\": null}"))
   (check-equal? (hasheq 'hi "there!")
-                (string->ejsexpr "{\"hi\": \"there!\"}")))
+                (string->ejsexpr "{\"hi\": \"there!\"}"))
+  (check-equal? "what is \"this\"?"
+                (string->ejsexpr "what is \"this\"?")))
 
 ;; tests copied from argo:
 (module+ test
