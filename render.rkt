@@ -7,7 +7,7 @@
          racket/string
          racket/match
          racket/pretty
-         (file "value.rkt"))
+         (file "./value.rkt"))
 
 (module+ test
   (require rackunit))
