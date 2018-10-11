@@ -6,18 +6,18 @@
                   empty?
                   first
                   rest)
+         (only-in racket/set
+                  list->set
+                  set=?)
          racket/contract
-         (file "value.rkt"))
+         (file "./value.rkt"))
 
 (module+ test
   (require rackunit))
 
 (define/contract (has-property? obj prop)
-  (ejs-object? (or/c symbol? string?) . -> . boolean?)
-  (cond [(symbol? prop)
-         (hash-has-key? obj prop)]
-        [(string? prop)
-         (hash-has-key? obj (string->symbol prop))]))
+  (ejs-object? symbol? . -> . boolean?)
+  (hash-has-key? obj prop))
 
 (module+ test
   (let ([obj (hasheq
@@ -54,8 +54,10 @@
     (check-true (ejs-object? (hasheq)))
     (check-true (ejs-object? (hasheq 'type "object")))))
 
-(define (object-properties obj)
-  (hash-keys obj))
+(define/contract (object-properties obj)
+  (ejs-object? . -> . (listof string?))
+  (map symbol->string
+       (hash-keys obj)))
 
 (provide object-properties)
 
@@ -81,17 +83,15 @@
 
 (provide remove-property)
 
-(define (equal-objects? jsobj1 jsobj2)
-  (let ([props1 (object-properties jsobj1)])
-    (if (empty? props1)
-        (empty? (object-properties jsobj2))
-        (let ([prop1 (first props1)])
-          (and (has-property? jsobj2 prop1)
-               (let ([val1 (property-value jsobj1 prop1)]
-                     [val2 (property-value jsobj2 prop1)])
-                 (and (equal-ejsexprs? val1 val2)
-                      (equal-ejsexprs? (remove-property jsobj1 prop1)
-                                   (remove-property jsobj2 prop1)))))))))
+(define/contract (equal-objects? jsobj1 jsobj2)
+  (ejs-object? ejs-object? . -> . boolean?)
+  (define props1 (object-properties jsobj1))
+  (define props2 (object-properties jsobj2))
+  (and (set=? (list->set props1) (list->set props2))
+       (andmap (lambda (p)
+                 (equal-ejsexprs? (property-value jsobj1 p)
+                                  (property-value jsobj2 p)))
+               props1)))
 
 ;; assumes that both arguments are ejsexpr? values
 (define/contract (equal-ejsexprs? js1 js2)
