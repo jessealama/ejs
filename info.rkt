@@ -2,20 +2,16 @@
 
 (define collection "ejs")
 
-(define version "0.12.0")
+(define version "0.13.0")
 
 (define deps
   '("base"
-    "rackunit-lib"
-    "brag"
-    "beautiful-racket-lib"))
+    "rackunit-lib"))
 
 (define build-deps
   '("scribble-lib"
     "racket-doc"
-    "brag"
-    "rackunit-lib"
-    "beautiful-racket-lib"))
+    "rackunit-lib"))
 
 (define pkg-desc "Exact-precision JSON library")
 
