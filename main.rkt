@@ -349,3 +349,17 @@ SCHEMA
 
 (module+ test
   (check-true (ejs-object? (string->ejsexpr geo/str))))
+
+;; another test from argo:
+
+(module+ test
+  (define additionalProperties/str #<<SCHEMA
+{
+    "additionalItems": []
+}
+SCHEMA
+  )
+)
+
+(module+ test
+  (check-true (ejs-object? (string->ejsexpr additionalProperties/str))))
