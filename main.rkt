@@ -364,3 +364,15 @@ SCHEMA
 
 (module+ test
   (check-true (ejs-object? (string->ejsexpr additionalProperties/str))))
+
+(module+ test
+  (define non-unique/str #<<SCHEMA
+{
+    "enum": [ {}, {} ]
+}
+SCHEMA
+  )
+)
+
+(module+ test
+  (check-true (ejs-object? (string->ejsexpr non-unique/str))))
