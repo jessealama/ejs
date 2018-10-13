@@ -86,6 +86,7 @@
   (consume-whitespace! port)
   (match (peek-char/safe port)
     [#\}
+     (read-char port)
      (make-hasheq (map (lambda (p v)
                          (cons (string->symbol p) v))
                        properties
