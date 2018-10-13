@@ -5,13 +5,10 @@
 (define version "0.13.0")
 
 (define deps
-  '("base"
-    "rackunit-lib"))
+  '("base"))
 
 (define build-deps
-  '("scribble-lib"
-    "racket-doc"
-    "rackunit-lib"))
+  '("rackunit-lib"))
 
 (define pkg-desc "Exact-precision JSON library")
 
