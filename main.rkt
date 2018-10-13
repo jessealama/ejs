@@ -93,7 +93,7 @@
     [else
      (define c1 (read-char port))
      (unless (char=? c1 #\")
-       (error (format "While reading an object, we expected to find a \"; we got ~a instead." c1)))
+       (error (format "While reading an object, we expected to find a \";\"; we got ~a instead." c1)))
      (define property (parse/string port (list)))
      (consume-whitespace! port)
      (define c2 (read-char port))
