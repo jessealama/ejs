@@ -124,6 +124,7 @@
   (consume-whitespace! port)
   (match (peek-char/safe port)
     [#\]
+     (read-char port)
      (reverse values)]
     [else
      (define value (port->ejsexpr port))
