@@ -1,6 +1,10 @@
 #lang racket/base
 
-(provide equal-ejsexprs?)
+(provide equal-ejsexprs?
+         property-value
+         has-property?
+         object-values
+         remove-property)
 
 (require (only-in racket/list
                   empty?
@@ -59,12 +63,8 @@
   (map symbol->string
        (hash-keys obj)))
 
-(provide object-properties)
-
 (define (object-values obj)
   (hash-values obj))
-
-(provide object-values)
 
 (define (equal-arrays? jsarr1 jsarr2)
   (if (empty? jsarr1)
@@ -80,8 +80,6 @@
 
 (define (remove-property jsobj prop)
   (hash-remove jsobj prop))
-
-(provide remove-property)
 
 (define/contract (equal-objects? jsobj1 jsobj2)
   (ejs-object? ejs-object? . -> . boolean?)
@@ -113,8 +111,6 @@
         [(ejs-object? js1)
          (and (ejs-object? js2)
               (equal-objects? js1 js2))]))
-
-(provide equal-ejsexprs?)
 
 (module+ test
 
