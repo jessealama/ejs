@@ -20,35 +20,27 @@
   (require rackunit))
 
 (define/contract (has-property? obj prop)
-  (ejs-object? symbol? . -> . boolean?)
-  (hash-has-key? obj prop))
+  (ejs-object? (or/c symbol? string?) . -> . boolean?)
+  (cond [(symbol? prop)
+         (hash-has-key? obj prop)]
+        [else
+         (hash-has-key? obj (string->symbol prop))]))
 
 (module+ test
-  (let ([obj (hasheq
-              'foo "bar")])
-    (check-true (ejsexpr? obj))
+  (let ([obj (hasheq 'foo "bar")])
+    (check-true (ejs-object? obj))
     (check-true (has-property? obj 'foo))
     (check-true (has-property? obj "foo"))
-    (check-false (has-property? obj 'bar))
-    (check-false (has-property? obj "bar"))))
+    (check-false (has-property? obj 'bar))))
 
-(provide has-property?)
+(define/contract (property-value obj prop)
+  (ejs-object? (or/c symbol? string?) . -> . ejsexpr?)
+  (cond [(symbol? prop)
+         (hash-ref obj prop)]
+        [else
+         (hash-ref obj (string->symbol prop))]))
 
-(define (property-value obj prop)
-  (cond ((symbol? prop)
-         (hash-ref obj prop))
-        ((string? prop)
-         (hash-ref obj (string->symbol prop)))
-        (else
-         (error "Property should be either a symbol or a string." prop))))
 
-(provide property-value)
-
-;; assumes x is a ejs-array? value
-(define (empty-array? x)
-  (empty? x))
-
-(provide empty-array?)
 
 (module+ test
   (test-case "Basic JSON object check"
