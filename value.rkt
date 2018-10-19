@@ -83,6 +83,7 @@
   (any/c . -> . boolean?)
   (and (hash? x)
        (hash-eq? x)
+       (immutable? x)
        (andmap symbol? (hash-keys x))
        (andmap ejsexpr? (hash-values x))))
 

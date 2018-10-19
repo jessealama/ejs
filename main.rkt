@@ -87,10 +87,11 @@
   (match (peek-char/safe port)
     [#\}
      (read-char port)
-     (make-hasheq (map (lambda (p v)
-                         (cons (string->symbol p) v))
-                       properties
-                       values))]
+     (make-immutable-hasheq
+      (map (lambda (p v)
+             (cons (string->symbol p) v))
+           properties
+           values))]
     [else
      (define c1 (read-char port))
      (unless (char=? c1 #\")
@@ -109,10 +110,11 @@
        [(? eof-object?)
         (error "While parsing an object, we encountered an unexpected end-of-file.")]
        [#\}
-        (make-hasheq (map (lambda (p v)
-                            (cons (string->symbol p) v))
-                          (cons property properties)
-                          (cons value values)))]
+        (make-immutable-hasheq
+         (map (lambda (p v)
+                (cons (string->symbol p) v))
+              (cons property properties)
+              (cons value values)))]
        [#\,
         (parse/object port
                       (cons property properties)
