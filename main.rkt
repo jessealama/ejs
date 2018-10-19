@@ -386,3 +386,13 @@ ESCAPED
                 (list "\\"))
   (check-equal? (string->ejsexpr "\"\\\\\\\\\"")
                 "\\\\"))
+
+(module+ test
+  (define forward-slash #<<FORWARD
+"\/"
+FORWARD
+))
+
+(module+ test
+  (check-equal? (string->ejsexpr forward-slash)
+                "/"))
