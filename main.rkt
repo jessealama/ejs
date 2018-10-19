@@ -197,9 +197,9 @@
 
 (define/contract (ensure-string chars)
   ((listof char?) . -> . ejs-string?)
-  (define s (list->string (reverse chars)))
+  (define s (list->string (cons #\" (reverse (cons #\" chars)))))
   (parameterize ([current-input-port (open-input-string s)])
-    (port->string)))
+    (read)))
 
 (define/contract (parse/string port preceding-chars)
   (input-port? (listof char?) . -> . ejs-string?)
@@ -216,17 +216,8 @@
         (error "End of input encountered while reading a string, after having read \"\\\"!")]
        [#f
         (error "Invalid UTF-8 byte sequence encountered while reading a string, after having read \"\\\"!")]
-       [#\"
-        (define c3 (read-char/safe port))
-        (match c3
-          [#f
-           (error "Invalid UTF-8 byte sequence encountered while reading a string, after having read \"\\\" and \" (double quote)!")]
-          [(? eof-object?)
-           (ensure-string (cons #\\ preceding-chars))]
-          [#\"
-           (ensure-string (cons #\" preceding-chars))]
-          [else
-           (parse/string port (cons c3 (cons #\" preceding-chars)))])]
+       [#\\
+        (parse/string port (cons #\\ (cons #\\ preceding-chars)))]
        [else
         (parse/string port (cons c2 (cons #\\ preceding-chars)))])]
     [#\"
@@ -321,14 +312,18 @@
   (check-true (equal-ejsexprs?
                (hasheq 'hi "there!")
                (string->ejsexpr "{\"hi\": \"there!\"}")))
-  (check-equal? "what is \"this\"?"
-                (string->ejsexpr "\"what is \\\"this\\\"?\""))
+  (check-equal? (string->ejsexpr "\"what is \\\"this\\\"?\"")
+                "what is \"this\"?")
   (check-equal? "slash\\"
-                (string->ejsexpr "\"slash\\\""))
+                (string->ejsexpr #<<JSON
+"slash\\"
+JSON
+))
   (check-equal? "\\"
-                (string->ejsexpr "\"\\\""))
-  (check-equal? "\\\\"
-                (string->ejsexpr "\"\\\\\""))
+                (string->ejsexpr #<<JSON
+"\\"
+JSON
+))
   (check-equal? "\""
                 (string->ejsexpr "\"\\\"\"")))
 
@@ -376,4 +371,18 @@ SCHEMA
 )
 
 (module+ test
-  (check-true (ejs-object? (string->ejsexpr non-unique/str))))
+  (check-true (ejs-object? (string->ejsexpr non-unique/str)))
+  )
+
+(module+ test
+  (define escaped-slash/str #<<ESCAPED
+[ "\\" ]
+ESCAPED
+  )
+)
+
+(module+ test
+  (check-equal? (string->ejsexpr escaped-slash/str)
+                (list "\\"))
+  (check-equal? (string->ejsexpr "\"\\\\\\\\\"")
+                "\\\\"))
