@@ -218,6 +218,8 @@
         (error "Invalid UTF-8 byte sequence encountered while reading a string, after having read \"\\\"!")]
        [#\\
         (parse/string port (cons #\\ (cons #\\ preceding-chars)))]
+       [#\/
+        (parse/string port (cons #\/ preceding-chars))]
        [else
         (parse/string port (cons c2 (cons #\\ preceding-chars)))])]
     [#\"
