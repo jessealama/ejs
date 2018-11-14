@@ -2,7 +2,7 @@
 
 (define collection "ejs")
 
-(define version "0.14.0")
+(define version "0.15.0")
 
 (define deps
   '("base"))
