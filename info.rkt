@@ -12,4 +12,4 @@
 
 (define pkg-desc "Exact-precision JSON library")
 
-(define pkg-authors '("jesse@lisp.sh"))
+(define pkg-authors '("jesse@serverracket.com"))
